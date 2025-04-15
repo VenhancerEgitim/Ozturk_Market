@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: 'white',
-    opacity: 0.7,
   },
 });
 
