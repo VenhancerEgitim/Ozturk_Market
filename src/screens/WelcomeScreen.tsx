@@ -14,14 +14,14 @@ const WelcomeScreen = ({navigation}: ScreenProps) => {
           source={require('../assets/images/splash-carrot.png')}
           style={styles.logo}
         />
-        <Text style={styles.title}>Welcome{'\n'}to our store</Text>
+        <Text style={styles.title}>Mağazamıza{'\n'}Hoş Geldiniz</Text>
         <Text style={styles.subtitle}>
-          Get your groceries in as fast as one hour
+          Bakkaldan alışverişinizi bir saat kadar kısa bir sürede yapın
         </Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Get Started</Text>
+          <Text style={styles.buttonText}>Başlayın</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -16,7 +16,7 @@ const SplashScreen = ({navigation}: ScreenProps) => {
         style={styles.logo}
       />
       <Text style={styles.title}>nectar</Text>
-      <Text style={styles.subtitle}>online groceriet</Text>
+      <Text style={styles.subtitle}>online market</Text>
     </View>
   );
 };
