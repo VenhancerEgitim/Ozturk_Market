@@ -6,6 +6,7 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
 import SuccessScreen from './src/screens/SuccessScreen';
+import CategoriesScreen from './src/screens/CategoriesScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ function App(): React.JSX.Element {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="Success" component={SuccessScreen} />
+        <Stack.Screen name="Categories" component={CategoriesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
