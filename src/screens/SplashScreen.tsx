@@ -1,8 +1,11 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
-import {ScreenProps} from '../types/navigation';
+import {RootStackScreenProps} from '../types/navigation';
+import { colors } from '../theme/colors';
 
-const SplashScreen = ({navigation}: ScreenProps) => {
+type Props = RootStackScreenProps<'Splash'>;
+
+const SplashScreen = ({navigation}: Props) => {
   React.useEffect(() => {
     setTimeout(() => {
       navigation.replace('Welcome');
@@ -24,7 +27,7 @@ const SplashScreen = ({navigation}: ScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4CAF50',
+    backgroundColor: colors.color.green,
     alignItems: 'center',
     justifyContent: 'center',
   },

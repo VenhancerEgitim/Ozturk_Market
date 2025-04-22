@@ -1,8 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
-import {ScreenProps} from '../types/navigation';
+import {View, StyleSheet, Text, Image} from 'react-native';
+import {RootStackScreenProps} from '../types/navigation';
+import CustomButton from '../components/CustomButton';
+import {colors} from '../theme/colors';
 
-const WelcomeScreen = ({navigation}: ScreenProps) => {
+type Props = RootStackScreenProps<'Welcome'>;
+
+const WelcomeScreen = ({navigation}: Props) => {
   return (
     <View style={styles.container}>
       <Image
@@ -18,11 +22,12 @@ const WelcomeScreen = ({navigation}: ScreenProps) => {
         <Text style={styles.subtitle}>
           Bakkaldan alışverişinizi bir saat kadar kısa bir sürede yapın
         </Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.buttonText}>Başlayın</Text>
-        </TouchableOpacity>
+        <CustomButton
+          title="Başlayın"
+          onPress={() => navigation.navigate('Login')}
+          variant="primary"
+          size="large"
+        />
       </View>
     </View>
   );
@@ -50,29 +55,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    color: 'white',
+    color: colors.color.white,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
-    color: 'white',
+    color: colors.color.white,
     textAlign: 'center',
     marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#4CAF50',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
   },
 });
 

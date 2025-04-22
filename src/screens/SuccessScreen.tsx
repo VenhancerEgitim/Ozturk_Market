@@ -1,16 +1,29 @@
 import React from 'react';
-import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, Image, Text} from 'react-native';
+import {ScreenProps} from '../types/navigation';
+import CustomButton from '../components/CustomButton';
+import {colors} from '../theme/colors';
 
-const SuccessScreen = ({navigation}: any) => {
+const SuccessScreen = ({navigation}: ScreenProps<'Success'>) => {
   return (
     <View style={styles.container}>
-      <Image
-        source={require('../assets/images/success.png')}
-        style={styles.successIcon}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Categories')}>
-        <Text style={styles.buttonText}>Alışverişe Başla</Text>
-      </TouchableOpacity>
+      <View style={styles.content}>
+        <Image
+          source={require('../assets/images/success.png')}
+          style={styles.successIcon}
+        />
+        <Text style={styles.title}>Başarılı!</Text>
+        <Text style={styles.subtitle}>Hesabınız başarıyla oluşturuldu.</Text>
+      </View>
+
+      <View style={styles.footer}>
+        <CustomButton
+          title="Alışverişe Başla"
+          onPress={() => navigation.navigate('Main', {screen: 'Explore'})}
+          variant="primary"
+          size="large"
+        />
+      </View>
     </View>
   );
 };
@@ -18,26 +31,35 @@ const SuccessScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E2F5E2',
+    backgroundColor: colors.background.lightGreen,
+    paddingTop: 40,
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
   },
   successIcon: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
+    marginBottom: 32,
   },
-  button: {
-    backgroundColor: '#4CAF50',
-    width: '80%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
+    color: '#1F1F1F',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666666',
+    textAlign: 'center',
+    marginBottom: 32,
+  },
+  footer: {
+    padding: 16,
+    marginBottom: 16,
   },
 });
 

@@ -1,42 +1,100 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Image, TextInput} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import {ScreenProps} from '../types/navigation';
+import {useDispatch} from 'react-redux';
+import {RootStackScreenProps} from '../types/navigation';
+import {setUser} from '../store/userSlice';
+import {colors} from '../theme/colors';
+
+type Props = RootStackScreenProps<'Login'>;
+
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Geçersiz e-posta').required('E-posta gerekli'),
-  password: Yup.string().required('Şifre gerekli'),
+  email: Yup.string()
+    .email('Geçerli bir e-posta adresi giriniz')
+    .required('E-posta adresi gerekli')
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      'Geçerli bir e-posta adresi giriniz',
+    ),
+  password: Yup.string()
+    .required('Şifre gerekli')
+    .min(6, 'Şifre en az 6 karakter olmalıdır'),
 });
 
-const LoginScreen = ({navigation}: ScreenProps) => {
+const initialValues: LoginFormValues = {
+  email: '',
+  password: '',
+};
+
+const LoginScreen = ({navigation}: Props) => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleLogin = async (values: {email: string; password: string}) => {
+  const handleLogin = async (values: LoginFormValues) => {
+    setError('');
+    setIsLoading(true);
+
     try {
-      const response = await axios.post('https://reqres.in/api/login', values);
+      const response = await axios.post('https://reqres.in/api/login', {
+        email: values.email,
+        password: values.password,
+      });
+
       if (response.data.token) {
+        dispatch(setUser({
+          email: values.email,
+          token: response.data.token,
+        }));
         navigation.navigate('Success');
       }
-    } catch (err) {
-      setError('Geçersiz e-posta veya şifre');
+    } catch (err: any) {
+      if (err.response) {
+        // API'den gelen hata mesajı
+        setError(err.response.data.error || 'Giriş başarısız oldu');
+      } else if (err.request) {
+        // Bağlantı hatası
+        setError('Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.');
+      } else {
+        // Diğer hatalar
+        setError('Bir hata oluştu. Lütfen tekrar deneyin.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require('../assets/images/login-sign-carrot.png')} style={styles.logo} />
+        <Image
+          source={require('../assets/images/login-sign-carrot.png')}
+          style={styles.logo}
+        />
       </View>
-      
+
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Giriş Yap</Text>
         <Text style={styles.subtitle}>E-posta ve şifrenizi girin</Text>
 
         <Formik
-          initialValues={{email: '', password: ''}}
+          initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleLogin}>
           {({handleChange, handleSubmit, values, errors, touched}) => (
@@ -44,12 +102,16 @@ const LoginScreen = ({navigation}: ScreenProps) => {
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>E-posta</Text>
                 <TextInput
-                  style={styles.input}
+                  style={[
+                    styles.input,
+                    touched.email && errors.email && styles.inputError,
+                  ]}
                   onChangeText={handleChange('email')}
                   value={values.email}
                   placeholder="E-posta"
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  editable={!isLoading}
                 />
                 {touched.email && errors.email && (
                   <Text style={styles.error}>{errors.email}</Text>
@@ -58,18 +120,29 @@ const LoginScreen = ({navigation}: ScreenProps) => {
 
               <View style={styles.inputContainer}>
                 <Text style={styles.label}>Şifre</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={styles.passwordContainer}>
                   <TextInput
-                    style={[styles.input, {flex: 1}]}
+                    style={[
+                      styles.input,
+                      {flex: 1},
+                      touched.password && errors.password && styles.inputError,
+                    ]}
                     onChangeText={handleChange('password')}
                     value={values.password}
                     placeholder="Şifre"
                     secureTextEntry={!showPassword}
+                    editable={!isLoading}
                   />
-                  <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                    disabled={isLoading}>
                     <Image
-                      source={showPassword ? require('../assets/images/eye-slash.png') : require('../assets/images/eye.png')}
-                      style={{width: 22, height: 22, tintColor: 'gray'}}
+                      source={
+                        showPassword
+                          ? require('../assets/images/eye-slash.png')
+                          : require('../assets/images/eye.png')
+                      }
+                      style={styles.eyeIcon}
                     />
                   </TouchableOpacity>
                 </View>
@@ -82,19 +155,27 @@ const LoginScreen = ({navigation}: ScreenProps) => {
 
               <TouchableOpacity
                 style={styles.forgotPassword}
-                onPress={() => {}}>
+                onPress={() => {}}
+                disabled={isLoading}>
                 <Text style={styles.forgotPasswordText}>Şifremi Unuttum?</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleSubmit()}>
-                <Text style={styles.buttonText}>Giriş Yap</Text>
+                style={[styles.button, isLoading && styles.buttonDisabled]}
+                onPress={() => handleSubmit()}
+                disabled={isLoading}>
+                {isLoading ? (
+                  <ActivityIndicator color="white" />
+                ) : (
+                  <Text style={styles.buttonText}>Giriş Yap</Text>
+                )}
               </TouchableOpacity>
 
               <View style={styles.signupContainer}>
                 <Text style={styles.signupText}>Hesabınız yok mu? </Text>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('SignUp')}
+                  disabled={isLoading}>
                   <Text style={styles.signupButton}>Kayıt Ol</Text>
                 </TouchableOpacity>
               </View>
@@ -109,7 +190,7 @@ const LoginScreen = ({navigation}: ScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background.lightGreen,
   },
   logoContainer: {
     alignItems: 'center',
@@ -132,7 +213,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   subtitle: {
-    color: 'gray',
+    color: colors.color.gray,
     marginBottom: 30,
     textAlign: 'left',
   },
@@ -144,16 +225,28 @@ const styles = StyleSheet.create({
   },
   label: {
     marginBottom: 5,
-    color: 'gray',
+    color: colors.color.gray,
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: '#E2E2E2',
+    borderBottomColor: colors.border.borderButtonColor,
     paddingVertical: 10,
     fontSize: 16,
   },
+  inputError: {
+    borderBottomColor: colors.color.red,
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    width: 22,
+    height: 22,
+    tintColor: colors.color.gray,
+  },
   error: {
-    color: 'red',
+    color: colors.color.red,
     fontSize: 12,
     marginTop: 5,
   },
@@ -162,16 +255,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   forgotPasswordText: {
-    color: 'gray',
+    color: colors.color.gray,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: colors.color.green,
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
+  buttonDisabled: {
+    backgroundColor: colors.color.pastelGreen,
+  },
   buttonText: {
-    color: 'white',
+    color: colors.color.white,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -181,10 +277,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   signupText: {
-    color: 'gray',
+    color: colors.color.gray,
   },
   signupButton: {
-    color: '#4CAF50',
+    color: colors.color.green,
     fontWeight: 'bold',
   },
 });
