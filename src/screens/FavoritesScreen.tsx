@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {TabParamList, RootStackParamList} from '../types/navigation';
 import {RootState} from '../store/store';

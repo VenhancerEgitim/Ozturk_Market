@@ -3,7 +3,7 @@ import {Product} from '../types/product';
 import {RootState} from './store';
 
 interface CartItem extends Product {
-  quantity: number;
+  quantity: number; // ürün miktarı
 }
 
 interface CartState {
@@ -12,15 +12,15 @@ interface CartState {
 }
 
 const initialState: CartState = {
-  items: [],
-  total: 0,
+  items: [], // sepetteki ürünler
+  total: 0,  // sepetin ttutarı
 };
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Product>) => {
+    addToCart: (state, action: PayloadAction<Product>) => { // sepete ürün eklememe
       const {id} = action.payload;
       const existingItem = state.items.find(item => item.id === id);
       
@@ -32,18 +32,18 @@ const cartSlice = createSlice({
       
       state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     },
-    removeFromCart: (state, action: PayloadAction<number>) => {
+    removeFromCart: (state, action: PayloadAction<number>) => { // sepetten ürün çıkarma
       state.items = state.items.filter(item => item.id !== action.payload);
       state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     },
-    updateQuantity: (state, action: PayloadAction<{id: number; quantity: number}>) => {
+    updateQuantity: (state, action: PayloadAction<{id: number; quantity: number}>) => { 
       const item = state.items.find(item => item.id === action.payload.id);
       if (item) {
         item.quantity = action.payload.quantity;
         state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
       }
     },
-    clearCart: (state) => {
+    clearCart: (state) => { // sepeti temizleme
       state.items = [];
       state.total = 0;
     },

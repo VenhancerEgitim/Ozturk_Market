@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#1F1F1F',
+    color: colors.color.black,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666666',
+    color: colors.color.gray,
     textAlign: 'center',
     marginBottom: 32,
   },

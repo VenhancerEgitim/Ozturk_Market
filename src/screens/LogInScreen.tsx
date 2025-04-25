@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  TextInput,
-  ActivityIndicator,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, TextInput, ActivityIndicator} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';

@@ -6,6 +6,7 @@ import CartScreen from '../screens/CartScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import UserScreen from '../screens/UserScreen';
 import {TabParamList} from '../types/navigation';
+import {colors} from '../theme/colors';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -14,8 +15,8 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#4CAF50',
-        tabBarInactiveTintColor: '#7C7C7C',
+        tabBarActiveTintColor: colors.color.green,
+        tabBarInactiveTintColor: colors.color.gray,
         tabBarStyle: {
           paddingBottom: 5,
           height: 60,
@@ -31,7 +32,7 @@ const TabNavigator = () => {
               style={{
                 width: 24,
                 height: 24,
-                tintColor: focused ? '#4CAF50' : '#7C7C7C',
+                tintColor: focused ? colors.color.green : colors.color.lightGray,
               }}
             />
           ),
@@ -48,7 +49,7 @@ const TabNavigator = () => {
               style={{
                 width: 24,
                 height: 24,
-                tintColor: focused ? '#4CAF50' : '#7C7C7C',
+                tintColor: focused ? colors.color.green : colors.color.lightGray,
               }}
             />
           ),
@@ -65,7 +66,7 @@ const TabNavigator = () => {
               style={{
                 width: 24,
                 height: 24,
-                tintColor: focused ? '#4CAF50' : '#7C7C7C',
+                tintColor: focused ? colors.color.green : colors.color.lightGray,
               }}
             />
           ),
@@ -82,7 +83,7 @@ const TabNavigator = () => {
               style={{
                 width: 24,
                 height: 24,
-                tintColor: focused ? '#4CAF50' : '#7C7C7C',
+                tintColor: focused ? colors.color.green : colors.color.lightGray,
               }}
             />
           ),

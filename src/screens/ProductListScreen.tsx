@@ -1,15 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  TextInput,
-  ActivityIndicator,
-  Image,
-  Alert,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, FlatList, TextInput, ActivityIndicator, Image, Alert} from 'react-native';
 import {useDispatch} from 'react-redux';
 import axios from 'axios';
 import {RootStackScreenProps} from '../types/navigation';
@@ -42,6 +32,7 @@ const ProductListScreen = ({navigation, route}: Props) => {
 
       let apiEndpoints: string[] = [];
       
+      // kategorilere göre API endpointlerini ayarlama
       switch (categoryId) {
         case 1: // Elektronik
           if (!showAllProducts) {
@@ -108,15 +99,15 @@ const ProductListScreen = ({navigation, route}: Props) => {
         default:
           apiEndpoints = ['products?limit=20'];
       }
-
+      //  api çağrısı
       const promises = apiEndpoints.map(endpoint =>
         axios.get(`https://dummyjson.com/products/category/${endpoint}`)
       );
 
-      const results = await Promise.all(promises);
-      const allProducts = results.flatMap(result => result.data.products || []);
+      const results = await Promise.all(promises); // API çağrılarısı aynı anda
+      const allProducts = results.flatMap(result => result.data.products || []); // gelen veriyi isleee
       
-      const mappedProducts: Product[] = allProducts.map(item => ({
+      const mappedProducts: Product[] = allProducts.map(item => ({ // formata döndürme / uygun
         id: item.id,
         title: item.title,
         price: item.price,
@@ -176,7 +167,7 @@ const ProductListScreen = ({navigation, route}: Props) => {
     }));
   };
 
-  const filteredProducts = products.filter(product =>
+  const filteredProducts = products.filter(product => // filtre 
     product.title.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 

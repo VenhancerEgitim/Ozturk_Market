@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  Alert,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, TextInput, Image, Alert, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView} from 'react-native';
 import {RootStackScreenProps} from '../types/navigation';
 import CustomButton from '../components/CustomButton';
 import {Formik} from 'formik';

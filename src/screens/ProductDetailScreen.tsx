@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import {View, StyleSheet, Text, Image, ScrollView, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ScreenProps} from '../types/navigation';
 import CustomButton from '../components/CustomButton';

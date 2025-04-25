@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Image, SafeAreaView} from 'react-native';
 import {RootStackScreenProps} from '../types/navigation';
 import CustomButton from '../components/CustomButton';
 import {colors} from '../theme/colors';

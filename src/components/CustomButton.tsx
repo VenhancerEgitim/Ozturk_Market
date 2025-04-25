@@ -33,7 +33,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     const baseStyle: ViewStyle[] = [styles.button];
     
     switch (variant) {
-      case 'primary':
+      case 'primary': 
         baseStyle.push({...styles.button, backgroundColor: colors.color.green});
         break;
       case 'secondary':

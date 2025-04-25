@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-  TextInput,
-} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, ScrollView, Image, TextInput} from 'react-native';
 import {CompositeScreenProps} from '@react-navigation/native';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

@@ -3,7 +3,7 @@ import {Product} from '../types/product';
 import {RootState} from './store';
 
 interface FavoriteState {
-  items: Product[];
+  items: Product[]; 
 }
 
 const initialState: FavoriteState = {
@@ -24,15 +24,15 @@ const favoriteSlice = createSlice({
         state.items.push(action.payload);
       }
     },
-    clearFavorites: (state) => {
+    clearFavorites: state => {
       state.items = [];
     },
   },
 });
 
 export const {toggleFavorite, clearFavorites} = favoriteSlice.actions;
+export default favoriteSlice.reducer;
+
 export const selectFavoriteItems = (state: RootState) => state.favorites.items;
 export const selectIsFavorite = (productId: number) => (state: RootState) => 
-  state.favorites.items.some(item => item.id === productId);
-
-export default favoriteSlice.reducer; 
+  state.favorites.items.some(item => item.id === productId); 

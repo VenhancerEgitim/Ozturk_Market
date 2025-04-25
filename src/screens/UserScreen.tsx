@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import {View, StyleSheet, Text, Image, ScrollView, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootStackScreenProps, RootStackParamList} from '../types/navigation';
